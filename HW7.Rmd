@@ -1,0 +1,23 @@
+---
+title: "HW7"
+author: "Alison Wyatt"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```{r}
+library(tidyverse)
+```
+
+
+The General Social Survey (GSS) has been run by NORC every other year since 1972 to keep track of current opinions across the United States.
+
+The package productplots contains a subset of this data, called happy. You can access the data using the command
+```{r}
+data(happy, package="productplots")
+head(happy)
+```
+
+```{r}
+HAPPY <- readRDS("data/HAPPY.rds")
+```
+
