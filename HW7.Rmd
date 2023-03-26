@@ -62,3 +62,21 @@ HAPPY$HEALTH= factor(HAPPY$HEALTH,levels= c("IAP", "POOR", "FAIR", "GOOD", "EXCE
 ggplot(data = HAPPY, aes(x= HEALTH)) + geom_bar()
 ```
 The most people in the group are in good health. 
+
+
+# Individual Exploration
+
+## Alison Wyatt
+
+Happiness vs Health
+```{r}
+ggplot(HAPPY, aes(x = HEALTH)) + geom_bar() + facet_wrap(HAPPY$HAPPY)
+```
+The "NOT TOO HAPPY" group had lower numbers of fair, good, and excellent health. "PRETTY HAPPY" had high levels in "IAP" and "GOOD" health and low levels in "POOR". "VERY HAPPY" also had low levels of "POOR" health. We could guess that being happier may reduce poor health. 
+
+Happiness vs sex
+
+```{r}
+ggplot(HAPPY, aes(x = HAPPY)) + geom_bar() + facet_wrap(HAPPY$SEX)
+```
+More females are in the "PRETTY HAPPY" and "VERY HAPPY" categories, but there are also more females in the "NOT TOO HAPPY" category. "PRETTY HAPPY" is the most popular category for both males and females. Both graphs have a similar distribution with low numbers in the "NOT TOO HAPPY" and "NA" categories.
