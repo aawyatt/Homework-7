@@ -98,3 +98,19 @@ Happiness vs sex
 ggplot(HAPPY, aes(x = HAPPY)) + geom_bar() + facet_wrap(HAPPY$SEX)
 ```
 More females are in the "PRETTY HAPPY" and "VERY HAPPY" categories, but there are also more females in the "NOT TOO HAPPY" category. "PRETTY HAPPY" is the most popular category for both males and females. Both graphs have a similar distribution with low numbers in the "NOT TOO HAPPY" and "NA" categories.
+
+## Angelina Allen 
+
+Happiness vs Maritial
+
+```{r}
+ggplot(HAPPY, aes(x = HAPPY)) + geom_bar() + facet_wrap(HAPPY$MARITAL) + coord_flip()
+```
+There do not seem like a huge defference between happiness levels across relationship status. It seems like the majority of people say they are pretty happy no matter what status they are in. Overall the distribution is low numbers in the not too happy portion and higher numbers in the pretty happy too very happy. 
+
+Happiness vs Degree 
+
+```{r}
+ggplot(HAPPY, aes(x = HAPPY)) + geom_bar() + facet_wrap(HAPPY$DEGREE) + coord_flip()
+```
+There do not seem like a huge defference between happiness levels across degree level. It seems like the majority of people say they are pretty happy no matter what level they have. Overall the distribution is low numbers in the not too happy portion and higher numbers in the pretty happy too very happy. 
