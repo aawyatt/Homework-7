@@ -79,7 +79,13 @@ Most people in the group have an average finrela level
 HAPPY$PARTYID= factor(HAPPY$PARTYID,levels= c("STRONG DEMOCRAT", "IND, NEAR DEM", "NOT STR DEMOCRAT", "INDEPENDENT", "NOT STR REPUBLICAN", "IND, NEAR REP", "STRONG REPULICAN", "OTHER PARTY"))
 ggplot(data = HAPPY, aes(x= PARTYID)) + geom_bar()
 ```
-Most people did not responde to the party id but the second morst was not strong democrat. 
+Most people did not responde to the party id but the second morst was not strong democrat.
+
+```{r}
+HAPPY$POLVIEWS= factor(HAPPY$POLVIEWS,levels= c("EXTREMELY LIBERAL", "LIBERAL", "SLIGHTLY LIBERAL", "MODERATE", "SLIGHTLY CONSERVATIVE", "CONSERVATIVE", "EXTREMELY CONSERVATIVE"))
+ggplot(data = HAPPY, aes(x= POLVIEWS)) + geom_bar()+ coord_flip()
+```
+besides the majority not ansering the question; second most of people said they were moderate. 
 
 
 # Individual Exploration
