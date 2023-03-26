@@ -4,8 +4,9 @@ author: "Alison Wyatt"
 date: "`r Sys.Date()`"
 output: html_document
 ---
-```{r}
+```{r, warning = FALSE}
 library(tidyverse)
+library(dplyr)
 ```
 
 
@@ -19,5 +20,45 @@ head(happy)
 
 ```{r}
 HAPPY <- readRDS("data/HAPPY.rds")
+head(HAPPY)
 ```
 
+1. Data cleaning: the values “IAP”, “DK” and “NA” all encode missing values. Replace all of these instances by the value NA.
+```{r}
+HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "IAP", "NA"))
+HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "DK", "NA"))
+HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "NA", "NA"))
+HAPPY$POLVIEWS = factor(HAPPY$POLVIEWS, levels = c("SLGHTLY CONSERVATIVE", "CONSERVATIVE", "EXTRMLY CONSERVATIVE", "MODERATE", "SLIGHTLY LIBERAL", "LIBERAL", "EXTREMELY LIBERAL", "NA"))
+ggplot(data = HAPPY, aes(x= POLVIEWS)) + geom_bar()
+```
+The largest group in POLVIEWS is the Moderate group. 
+
+2. Check the type of the variable and cast into the right type (factor variable for categorical variables). For age, change “89 OR OLDER” to 89 and assume the variable should be numeric.
+```{r}
+str(HAPPY)
+table(HAPPY$POLVIEWS)
+```
+```{r}
+HAPPY$SEX = factor(HAPPY$SEX, levels = c("MALE", "FEMALE"))
+ggplot(data = HAPPY, aes(x= SEX)) + geom_bar()
+
+```
+There are more females than males in this group. 
+
+```{r}
+HAPPY$MARITAL = factor(HAPPY$MARITAL, levels = c("NEVER MARRIED", "MARRIED", "SEPERATED", "DIVORCED", "WIDOWED"))
+ggplot(data = HAPPY, aes(x= MARITAL)) + geom_bar()
+```
+The largest classification in the marital group is married, then married, then divorced, then widowed. The least amount of people had no response. 
+
+```{r}
+HAPPY$HAPPY = factor(HAPPY$HAPPY, levels = c("NOT TOO HAPPY", "PRETTY HAPPY", "VERY HAPPY"))
+ggplot(data = HAPPY, aes(x= HAPPY)) + geom_bar()
+```
+The largest group is pretty happy and the smallest group is not too happy. The fewest people did not have a response. 
+
+```{r}
+HAPPY$HEALTH= factor(HAPPY$HEALTH,levels= c("IAP", "POOR", "FAIR", "GOOD", "EXCELLENT", "DK"))
+ggplot(data = HAPPY, aes(x= HEALTH)) + geom_bar()
+```
+The most people in the group are in good health. 
