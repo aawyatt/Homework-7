@@ -63,6 +63,24 @@ ggplot(data = HAPPY, aes(x= HEALTH)) + geom_bar()
 ```
 The most people in the group are in good health. 
 
+```{r}
+HAPPY$DEGREE= factor(HAPPY$DEGREE,levels= c("LT HIGH SCHOOL", "HIGH SCHOOL", "BACHELOR", "GRADUATE"))
+ggplot(data = HAPPY, aes(x= DEGREE)) + geom_bar()
+```
+Most people in the group have high school degrees. 
+
+```{r}
+HAPPY$FINRELA= factor(HAPPY$FINRELA,levels= c("BELOW AVERAGE", "AVERAGE", "ABOVE AVERAGE"))
+ggplot(data = HAPPY, aes(x= FINRELA)) + geom_bar()
+```
+Most people in the group have an average finrela level
+
+```{r}
+HAPPY$PARTYID= factor(HAPPY$PARTYID,levels= c("STRONG DEMOCRAT", "IND, NEAR DEM", "NOT STR DEMOCRAT", "INDEPENDENT", "NOT STR REPUBLICAN", "IND, NEAR REP", "STRONG REPULICAN", "OTHER PARTY"))
+ggplot(data = HAPPY, aes(x= PARTYID)) + geom_bar()
+```
+Most people did not responde to the party id but the second morst was not strong democrat. 
+
 
 # Individual Exploration
 
