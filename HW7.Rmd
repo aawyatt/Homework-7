@@ -8,6 +8,10 @@ output: html_document
 library(tidyverse)
 library(dplyr)
 ```
+Team members: Alison Wyatt, Angelina Allen
+
+Github repo: https://github.com/aawyatt/Homework-7
+
 
 
 The General Social Survey (GSS) has been run by NORC every other year since 1972 to keep track of current opinions across the United States.
@@ -25,25 +29,29 @@ head(HAPPY)
 
 1. Data cleaning: the values “IAP”, “DK” and “NA” all encode missing values. Replace all of these instances by the value NA.
 ```{r}
-HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "IAP", "NA"))
-HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "DK", "NA"))
-HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "NA", "NA"))
+HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "IAP", NA))
+HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "DK", NA))
+HAPPY = HAPPY %>% mutate(POLVIEWS = replace(POLVIEWS, POLVIEWS == "NA", NA))
 HAPPY$POLVIEWS = factor(HAPPY$POLVIEWS, levels = c("SLGHTLY CONSERVATIVE", "CONSERVATIVE", "EXTRMLY CONSERVATIVE", "MODERATE", "SLIGHTLY LIBERAL", "LIBERAL", "EXTREMELY LIBERAL", "NA"))
-ggplot(data = HAPPY, aes(x= POLVIEWS)) + geom_bar()
+ggplot(data = HAPPY, aes(x= POLVIEWS)) + geom_bar() + coord_flip()
 ```
-The largest group in POLVIEWS is the Moderate group. 
+The largest group in POLVIEWS is the Moderate group. The smallest group is the extremely liberal and extremely conservative group. There seem to be more conservatives and slightly conservatives than liberal and slightly liberal. 
 
 2. Check the type of the variable and cast into the right type (factor variable for categorical variables). For age, change “89 OR OLDER” to 89 and assume the variable should be numeric.
+
 ```{r}
-str(HAPPY)
-table(HAPPY$POLVIEWS)
+HAPPY = HAPPY %>% mutate(age = replace(AGE, AGE == "89 OR OLDER", 89), 
+                         age = suppressWarnings(as.numeric(age))) %>% select(-AGE)
+HAPPY %>% ggplot(aes(x = age)) + geom_histogram(binwidth=1)
 ```
+This dataset contains far more middle aged people than any other age group. There are the fewest people under 20 and older than 80. The distribution of ages in this dataset skews right and has a peak around 30.
+
 ```{r}
 HAPPY$SEX = factor(HAPPY$SEX, levels = c("MALE", "FEMALE"))
 ggplot(data = HAPPY, aes(x= SEX)) + geom_bar()
 
 ```
-There are more females than males in this group. 
+There are more females than males in this group. There are around 27000 males and 35000 females. 
 
 ```{r}
 HAPPY$MARITAL = factor(HAPPY$MARITAL, levels = c("NEVER MARRIED", "MARRIED", "SEPERATED", "DIVORCED", "WIDOWED"))
@@ -55,37 +63,31 @@ The largest classification in the marital group is married, then married, then d
 HAPPY$HAPPY = factor(HAPPY$HAPPY, levels = c("NOT TOO HAPPY", "PRETTY HAPPY", "VERY HAPPY"))
 ggplot(data = HAPPY, aes(x= HAPPY)) + geom_bar()
 ```
-The largest group is pretty happy and the smallest group is not too happy. The fewest people did not have a response. 
+The largest group is pretty happy and the smallest group is not too happy. The fewest people did not have a response. Pretty happy is around double very happy and 4 times of not too happy.
 
 ```{r}
 HAPPY$HEALTH= factor(HAPPY$HEALTH,levels= c("IAP", "POOR", "FAIR", "GOOD", "EXCELLENT", "DK"))
 ggplot(data = HAPPY, aes(x= HEALTH)) + geom_bar()
 ```
-The most people in the group are in good health. 
+The majority of people in the dataset are in fair, good, or excellent health. A large group classified themselves as IAP, and very few people classified their health as poor. A small amount of people said "DK" or did not answer.
 
 ```{r}
 HAPPY$DEGREE= factor(HAPPY$DEGREE,levels= c("LT HIGH SCHOOL", "HIGH SCHOOL", "BACHELOR", "GRADUATE"))
 ggplot(data = HAPPY, aes(x= DEGREE)) + geom_bar()
 ```
-Most people in the group have high school degrees. 
+Most people in the group have high school degrees. Very few people have graduate degrees and even less did not answer.
 
 ```{r}
 HAPPY$FINRELA= factor(HAPPY$FINRELA,levels= c("BELOW AVERAGE", "AVERAGE", "ABOVE AVERAGE"))
 ggplot(data = HAPPY, aes(x= FINRELA)) + geom_bar()
 ```
-Most people in the group have an average finrela level
+Most people in the group have an average finrela level. Above average and NA had the fewest amounts of responses.
 
 ```{r}
 HAPPY$PARTYID= factor(HAPPY$PARTYID,levels= c("STRONG DEMOCRAT", "IND, NEAR DEM", "NOT STR DEMOCRAT", "INDEPENDENT", "NOT STR REPUBLICAN", "IND, NEAR REP", "STRONG REPULICAN", "OTHER PARTY"))
-ggplot(data = HAPPY, aes(x= PARTYID)) + geom_bar()
+ggplot(data = HAPPY, aes(x= PARTYID)) + geom_bar() + coord_flip()
 ```
-Most people did not responde to the party id but the second morst was not strong democrat.
-
-```{r}
-HAPPY$POLVIEWS= factor(HAPPY$POLVIEWS,levels= c("EXTREMELY LIBERAL", "LIBERAL", "SLIGHTLY LIBERAL", "MODERATE", "SLIGHTLY CONSERVATIVE", "CONSERVATIVE", "EXTREMELY CONSERVATIVE"))
-ggplot(data = HAPPY, aes(x= POLVIEWS)) + geom_bar()+ coord_flip()
-```
-besides the majority not ansering the question; second most of people said they were moderate. 
+Most people did not respond to the party id but the second most was not strong democrat. Other party had the lesat amount of responses.
 
 
 # Individual Exploration
@@ -94,14 +96,14 @@ besides the majority not ansering the question; second most of people said they 
 
 Happiness vs Health
 ```{r}
-ggplot(HAPPY, aes(x = HEALTH)) + geom_bar() + facet_wrap(HAPPY$HAPPY)
+ggplot(HAPPY, aes(x = HEALTH)) + geom_bar() + facet_wrap(HAPPY$HAPPY) + coord_flip()
 ```
 The "NOT TOO HAPPY" group had lower numbers of fair, good, and excellent health. "PRETTY HAPPY" had high levels in "IAP" and "GOOD" health and low levels in "POOR". "VERY HAPPY" also had low levels of "POOR" health. We could guess that being happier may reduce poor health. 
 
 Happiness vs sex
 
 ```{r}
-ggplot(HAPPY, aes(x = HAPPY)) + geom_bar() + facet_wrap(HAPPY$SEX)
+ggplot(HAPPY, aes(x = HAPPY)) + geom_bar() + facet_wrap(HAPPY$SEX) + coord_flip()
 ```
 More females are in the "PRETTY HAPPY" and "VERY HAPPY" categories, but there are also more females in the "NOT TOO HAPPY" category. "PRETTY HAPPY" is the most popular category for both males and females. Both graphs have a similar distribution with low numbers in the "NOT TOO HAPPY" and "NA" categories.
 
